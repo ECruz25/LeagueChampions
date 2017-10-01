@@ -69,14 +69,14 @@ $('.championSelect').change(function() {
       updateStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
   $.getJSON(itemsURL)
     .done(function(data) {
       updateItemStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
 });
 
@@ -86,7 +86,7 @@ $('.itemSelect').change(function() {
       updateItemStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
 });
 
@@ -96,14 +96,14 @@ $('.levelSelect').change(function() {
       updateStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
   $.getJSON(itemsURL)
     .done(function(data) {
       updateItemStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
 });
 
@@ -115,21 +115,21 @@ function loadInitialData() {
       updateStats(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
   $.getJSON(itemsURL)
     .done(function(data) {
       updateItemSelects(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
   $.getJSON(itemsURL)
     .done(function(data) {
       loadImages(data);
     })
     .fail(function(error) {
-      console.log(error);
+      console.log('Error');
     });
   $.each(levels, function(l, level) {
     $('.levelSelect').append(
@@ -181,7 +181,6 @@ function updateItemStats(data) {
                 $('.' + o + ' ' + '.byItems').empty();
                 if (s.substring(0, 4) === 'Flat') {
                   statsCurrentValues[o] = statsCurrentValues[o] + stat;
-                  console.log(o);
                   $('.' + o).append(
                     $('<span>')
                       .attr('class', 'byItems')
@@ -213,7 +212,6 @@ function updateStats(data) {
 
   $.each(data.data[champion1Selected].stats, function(c, information) {
     if ($('#levelsChampion1Select').val() == 1) {
-      console.log(c);
       $('#champion1Stats').append(
         $('<li>')
           .attr('class', 'info list-group-item ' + c)
@@ -338,13 +336,17 @@ function loadImages(data) {
     if (item.gold.purchasable && item.maps[11] && item.colloq != '') {
       $.get(itemImageURL + item.image.full).done(function() {
         $('#pictures').append(
-          $('<img>').attr({
-            src: itemImageURL + item.image.full,
-            draggable: true,
-            ondragstart: 'drag(event)',
-            id: 'image' + i,
-            class: 'item'
-          })
+          $('<div>')
+            .attr('class', 'row col')
+            .append(
+              $('<img>').attr({
+                src: itemImageURL + item.image.full,
+                draggable: true,
+                ondragstart: 'drag(event)',
+                id: 'image' + i,
+                class: 'item '
+              })
+            )
         );
       });
     }
@@ -362,22 +364,31 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData('text');
+  var x = document.getElementById(data);
   if (ev.target.tagName === 'DIV') {
-    console.log(ev.target.tagName, ev.target.childNodes.length);
     if (ev.target.childNodes.length < 6 || ev.target.id === 'pictures') {
-      ev.target.appendChild(document.getElementById(data));
+      x.setAttribute('id', 'copyOf' + data);
+      ev.target.appendChild(x);
     } else {
-      alert('You`ve reched mximum amount of items');
+      alert('You`ve reached maximum amount of items');
     }
   } else if (ev.target.parentNode.tagName === 'DIV') {
     if (
       ev.target.parentNode.childNodes.length < 6 ||
       ev.target.parentNode.id === 'pictures'
     ) {
-      ev.target.parentNode.appendChild(document.getElementById(data));
+      x.setAttribute('id', 'copyOf' + data);
+      ev.target.parentNode.appendChild(x);
     } else {
-      alert('You`ve reched mximum amount of items');
+      alert('You`ve reached maximum amount of items');
     }
   }
-  console.log('------------------');
+  $('#pictures').empty();
+  $.getJSON(itemsURL)
+    .done(function(data) {
+      loadImages(data);
+    })
+    .fail(function(error) {
+      console.log('Error');
+    });
 }
