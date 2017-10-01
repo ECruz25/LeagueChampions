@@ -1,0 +1,40 @@
+body {
+  font-family: calibri;
+}
+
+div {
+  float: left;
+  margin: 1.6667%;
+  width: 30%;
+}
+
+select {
+  margin-left: 30px;
+}
+
+.info {
+  text-transform: uppercase;
+}
+
+.champions {
+  margin-left: 1.6667%;
+  float: left;
+}
+
+.perLevel {
+  color: green;
+}
+.byItems {
+  color: blue;
+}
+
+.perLevel .byItems {
+  font-style: italic;
+  font-weight: bold;
+}
+
+img {
+  text-align: center;
+  display: block;
+  margin-left: 50px;
+}
