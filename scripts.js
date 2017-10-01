@@ -180,6 +180,7 @@ function updateItemStats(data) {
                 $('.' + o + ' ' + '.byItems').empty();
                 if (s.substring(0, 4) === 'Flat') {
                   statsCurrentValues[o] = statsCurrentValues[o] + stat;
+                  console.log(o);
                   $('.' + o).append(
                     $('<span>')
                       .attr('class', 'byItems')
@@ -211,10 +212,10 @@ function updateStats(data) {
 
   $.each(data.data[champion1Selected].stats, function(c, information) {
     if ($('#levelsChampion1Select').val() == 1) {
+      console.log(c);
       $('#champion1Stats').append(
         $('<li>')
-          .attr('class', 'info')
-          .attr('class', c)
+          .attr('class', 'info list-group-item px-0' + c)
           .append(c + ': ')
           .append(
             $('<span>')
@@ -227,8 +228,7 @@ function updateStats(data) {
         if (data.data[champion1Selected].stats[c + 'perlevel']) {
           $('#champion1Stats').append(
             $('<li>')
-              .attr('class', 'info')
-              .attr('class', c)
+              .attr('class', 'info list-group-item px-0' + c)
               .append(c + ': ')
               .append(
                 $('<span>')
@@ -251,8 +251,7 @@ function updateStats(data) {
         } else {
           $('#champion1Stats').append(
             $('<li>')
-              .attr('class', 'info')
-              .attr('class', c)
+              .attr('class', 'info list-group-item ' + c)
               .append(c + ': ')
               .append(
                 $('<span>')
@@ -269,8 +268,7 @@ function updateStats(data) {
     if ($('#levelsChampion2Select').val() == 1) {
       $('#champion2Stats').append(
         $('<li>')
-          .attr('class', 'info')
-          .attr('class', c)
+          .attr('class', 'info list-group-item ' + c)
           .append(c + ': ')
           .append(
             $('<span>')
@@ -283,8 +281,7 @@ function updateStats(data) {
         if (data.data[champion2Selected].stats[c + 'perlevel']) {
           $('#champion2Stats').append(
             $('<li>')
-              .attr('class', 'info')
-              .attr('class', c)
+              .attr('class', 'info list-group-item ' + c)
               .append(c + ': ')
               .append(
                 $('<span>')
@@ -307,8 +304,7 @@ function updateStats(data) {
         } else {
           $('#champion2Stats').append(
             $('<li>')
-              .attr('class', 'info')
-              .attr('class', c)
+              .attr('class', 'info list-group-item ' + c)
               .append(c + ': ')
               .append(
                 $('<span>')
