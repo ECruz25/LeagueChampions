@@ -1,6 +1,3 @@
-const itemsURL =
-  'http://ddragon.leagueoflegends.com/cdn/7.19.1/data/en_US/item.json';
-const itemImageURL = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/';
 var count = 0;
 
 $.getJSON(itemsURL)
@@ -38,22 +35,5 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData('text');
-  if (ev.target.tagName === 'DIV') {
-    console.log(ev.target.tagName, ev.target.childNodes.length);
-    if (ev.target.childNodes.length < 6 || ev.target.id === 'pictures') {
-      ev.target.appendChild(document.getElementById(data));
-    } else {
-      alert('You`ve reched mximum amount of items');
-    }
-  } else if (ev.target.parentNode.tagName === 'DIV') {
-    if (
-      ev.target.parentNode.childNodes.length < 6 ||
-      ev.target.parentNode.id === 'pictures'
-    ) {
-      ev.target.parentNode.appendChild(document.getElementById(data));
-    } else {
-      alert('You`ve reched mximum amount of items');
-    }
-  }
-  console.log('------------------');
+  ev.target.appendChild(document.getElementById(data));
 }
