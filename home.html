@@ -13,16 +13,10 @@
 <body>
   <ul class="nav nav-tabs bg-primary">
     <li class="nav-item">
-      <a class="nav-link" href="#">Active</a>
+      <a class="nav-link" href="home.html">Compare</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Another link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#">Disabled</a>
+      <a class="nav-link" href="DragAndDrop.html">Drag-And-Drop</a>
     </li>
   </ul>
   <div class="container">
@@ -30,10 +24,10 @@
     <p>Compare how do each champ stats are after hitting a item-spike</p>
     <div class="row no-gutters">
       <div id="items" class="col form-group">
-        <select name="item1Select" id="item1Select" class="itemSelect form-control ">
+        <select name="item1Select" id="item1Select" class="itemSelect form-control">
                   <option value="-">-</option>
                 </select>
-        <select name="item2Select" id="item2Select" class="itemSelect form-control ">
+        <select name="item2Select" id="item2Select" class="itemSelect form-control">
                     <option value="-">-</option>
                   </select>
         <select name="item3Select" id="item3Select" class="itemSelect form-control ">
@@ -71,7 +65,6 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="scripts.js"></script>
   <script src="https://unpkg.com/popper.js@1.12.5/dist/umd/popper.js" integrity="sha384-KlVcf2tswD0JOTQnzU4uwqXcbAy57PvV48YUiLjqpk/MJ2wExQhg9tuozn5A1iVw"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.3/dist/js/bootstrap-material-design.js" integrity="sha384-hC7RwS0Uz+TOt6rNG8GX0xYCJ2EydZt1HeElNwQqW+3udRol4XwyBfISrNDgQcGA"
@@ -81,6 +74,8 @@
       $('body').bootstrapMaterialDesign();
     });
   </script>
+  <script src="scripts.js"></script>
+  <script src="DragAndDrop.js "></script>
 </body>
 
 </html>

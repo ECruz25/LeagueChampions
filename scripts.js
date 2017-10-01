@@ -155,12 +155,14 @@ function updateChampionSelects(data) {
 
 function updateItemSelects(data) {
   $.each(data.data, function(i, item) {
-    $('.itemSelect').append(
-      $('<option>', {
-        value: i,
-        text: item.name
-      })
-    );
+    if (item.gold.purchasable && item.maps[11] && item.colloq != '') {
+      $('.itemSelect').append(
+        $('<option>', {
+          value: i,
+          text: item.name
+        })
+      );
+    }
   });
 }
 
@@ -215,7 +217,7 @@ function updateStats(data) {
       console.log(c);
       $('#champion1Stats').append(
         $('<li>')
-          .attr('class', 'info list-group-item px-0' + c)
+          .attr('class', 'info list-group-item ' + c)
           .append(c + ': ')
           .append(
             $('<span>')
@@ -228,7 +230,7 @@ function updateStats(data) {
         if (data.data[champion1Selected].stats[c + 'perlevel']) {
           $('#champion1Stats').append(
             $('<li>')
-              .attr('class', 'info list-group-item px-0' + c)
+              .attr('class', 'info list-group-item ' + c)
               .append(c + ': ')
               .append(
                 $('<span>')
