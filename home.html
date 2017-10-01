@@ -19,7 +19,7 @@
       <a class="nav-link" href="DragAndDrop.html">Drag-And-Drop</a>
     </li>
   </ul>
-  <div class="container">
+  <div class="container col-8">
     <h1>Pick your champs</h1>
     <p>Compare how do each champ stats are after hitting a item-spike</p>
     <div class="row no-gutters">
@@ -44,24 +44,27 @@
                   </select>
       </div>
     </div>
-    <div class="row">
-      <div id="champion1" class="champions col form-group">
+    <div class="row col-12">
+      <div id="champion1" class="champions col-6 form-group">
         <img src="" id="champion1Picture" class="rounded-circle .mx-auto">
-        <div class="form-group">
+        <div class="form-group justify-content-center">
           <select name="champion1Select" id="champion1Select" class="championSelect form-control"></select>
           <select name="levelsChampion1Select" id="levelsChampion1Select" class="levelSelect form-control"></select>
+          <div id="itemsChampion1" ondrop="drop(event)" ondragover="allowDrop(event)" class="whereToDrop"></div>
         </div>
         <ul id="champion1Stats" class="list-group"></ul>
       </div>
-      <div id="champion2" class="champions col">
+      <div id="champion2" class="champions col-6 form-group">
         <img src="" id="champion2Picture" class="rounded-circle .mx-auto ">
-        <div class=" form-group">
+        <div class=" form-group justify-content-center">
           <select name="champion2Select" id="champion2Select" class="championSelect form-control"></select>
           <select name="levelsChampion2Select" id="levelsChampion2Select" class="levelSelect form-control"></select>
+          <div id="itemsChampion2" ondrop="drop(event)" ondragover="allowDrop(event)" class="whereToDrop"></div>
         </div>
         <ul id="champion2Stats" class="list-group"></ul>
       </div>
     </div>
+    <div id="pictures" ondrop="drop(event)" ondragover="allowDrop(event)" class="whereToDrop row col"></div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>

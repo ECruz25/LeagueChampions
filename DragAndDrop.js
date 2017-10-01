@@ -38,14 +38,22 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData('text');
-  console.log(ev.target.id, ev.target.childNodes.length);
   if (ev.target.tagName === 'DIV') {
+    console.log(ev.target.tagName, ev.target.childNodes.length);
     if (ev.target.childNodes.length < 6 || ev.target.id === 'pictures') {
       ev.target.appendChild(document.getElementById(data));
     } else {
       alert('You`ve reched mximum amount of items');
     }
   } else if (ev.target.parentNode.tagName === 'DIV') {
-    ev.target.parentNode.appendChild(document.getElementById(data));
+    if (
+      ev.target.parentNode.childNodes.length < 6 ||
+      ev.target.parentNode.id === 'pictures'
+    ) {
+      ev.target.parentNode.appendChild(document.getElementById(data));
+    } else {
+      alert('You`ve reched mximum amount of items');
+    }
   }
+  console.log('------------------');
 }

@@ -3,7 +3,9 @@ const URL =
 const imageURL = 'https://ddragon.leagueoflegends.com/cdn/7.19.1/img/champion/';
 const itemsURL =
   'http://ddragon.leagueoflegends.com/cdn/7.19.1/data/en_US/item.json';
+const itemImageURL = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/';
 const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+var count = 0;
 var items = [];
 var statsCurrentValues = {
   hp: 0,
@@ -59,16 +61,6 @@ var statsInformation = [
 ];
 
 loadInitialData();
-
-$('#compareBTn').click(function() {
-  $.getJSON(URL)
-    .done(function(data) {
-      updatePictures(data);
-    })
-    .fail(function(error) {
-      console.log(error);
-    });
-});
 
 $('.championSelect').change(function() {
   $.getJSON(URL)
@@ -128,6 +120,13 @@ function loadInitialData() {
   $.getJSON(itemsURL)
     .done(function(data) {
       updateItemSelects(data);
+    })
+    .fail(function(error) {
+      console.log(error);
+    });
+  $.getJSON(itemsURL)
+    .done(function(data) {
+      loadImages(data);
     })
     .fail(function(error) {
       console.log(error);
@@ -222,7 +221,7 @@ function updateStats(data) {
           .append(
             $('<span>')
               .attr('class', 'value')
-              .append(information)
+              .append(' ' + information)
           )
       );
     } else {
@@ -235,7 +234,7 @@ function updateStats(data) {
               .append(
                 $('<span>')
                   .attr('class', 'value')
-                  .append(information)
+                  .append(' ' + information)
                   .append(
                     $('<span>')
                       .attr('class', 'perLevel')
@@ -258,7 +257,7 @@ function updateStats(data) {
               .append(
                 $('<span>')
                   .attr('class', 'value')
-                  .append(information)
+                  .append(' ' + information)
               )
           );
         }
@@ -275,7 +274,7 @@ function updateStats(data) {
           .append(
             $('<span>')
               .attr('class', 'value')
-              .append(information)
+              .append(' ' + information)
           )
       );
     } else {
@@ -288,7 +287,7 @@ function updateStats(data) {
               .append(
                 $('<span>')
                   .attr('class', 'value')
-                  .append(information)
+                  .append(' ' + information)
                   .append(
                     $('<span>')
                       .attr('class', 'perLevel')
@@ -311,7 +310,7 @@ function updateStats(data) {
               .append(
                 $('<span>')
                   .attr('class', 'value')
-                  .append(information)
+                  .append(' ' + information)
               )
           );
         }
@@ -332,4 +331,53 @@ function updatePictures(data) {
     'src',
     imageURL + data.data[champion2Selected].image.full
   );
+}
+
+function loadImages(data) {
+  $.each(data.data, function(i, item) {
+    if (item.gold.purchasable && item.maps[11] && item.colloq != '') {
+      $.get(itemImageURL + item.image.full).done(function() {
+        $('#pictures').append(
+          $('<img>').attr({
+            src: itemImageURL + item.image.full,
+            draggable: true,
+            ondragstart: 'drag(event)',
+            id: 'image' + i,
+            class: 'item'
+          })
+        );
+      });
+    }
+  });
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData('text', ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData('text');
+  if (ev.target.tagName === 'DIV') {
+    console.log(ev.target.tagName, ev.target.childNodes.length);
+    if (ev.target.childNodes.length < 6 || ev.target.id === 'pictures') {
+      ev.target.appendChild(document.getElementById(data));
+    } else {
+      alert('You`ve reched mximum amount of items');
+    }
+  } else if (ev.target.parentNode.tagName === 'DIV') {
+    if (
+      ev.target.parentNode.childNodes.length < 6 ||
+      ev.target.parentNode.id === 'pictures'
+    ) {
+      ev.target.parentNode.appendChild(document.getElementById(data));
+    } else {
+      alert('You`ve reched mximum amount of items');
+    }
+  }
+  console.log('------------------');
 }
