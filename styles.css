@@ -26,7 +26,6 @@ img {
 }
 
 .whereToDrop {
-  width: 546px;
   height: 90px;
   border: 1px solid #aaaaaa;
   margin: 20px auto 0;
@@ -47,4 +46,4 @@ img {
   padding: 0;
   margin: 0;
   margin: 20px auto 0;
-} 
+}

@@ -7,7 +7,20 @@ const itemImageURL = 'http://ddragon.leagueoflegends.com/cdn/7.19.1/img/item/';
 const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 var count = 0;
 var items = [];
-var statsCurrentValues = {
+var itemsChampion1 = [];
+var itemsChampion2 = [];
+var statsCurrentValuesChampion1 = {
+  hp: 0,
+  mp: 0,
+  armor: 0,
+  spellblock: 0,
+  hpregen: 0,
+  mpregen: 0,
+  attackdamage: 0,
+  attackspeed: 0,
+  critchance: 0
+};
+var statsCurrentValuesChampion2 = {
   hp: 0,
   mp: 0,
   armor: 0,
@@ -166,26 +179,74 @@ function updateItemSelects(data) {
 }
 
 function updateItemStats(data) {
-  //Please refactor this code!!!
-  $.each(statsCurrentValues, function(s, stat) {
-    $('.' + s + ' ' + '.byItems').empty();
+  $.each(statsCurrentValuesChampion2, function(s, stat) {
+    $('.' + s + ' ' + '.byItems').remove();
+    console.log(document.querySelector('#champion1Stats'));
+    statsCurrentValuesChampion1[s] = 0;
+    statsCurrentValuesChampion2[s] = 0;
   });
-  $('.itemSelect option:selected').each(function() {
-    if (this.value != '-') {
-      $.each(data.data[this.value].stats, function(s, stat) {
+  updateItemStatsChampion1(data);
+  updateItemStatsChampion2(data);
+  //console.log(statsCurrentValuesChampion1);
+  //console.log(statsCurrentValuesChampion2);
+}
+
+function updateItemStatsChampion1(data) {
+  $(itemsChampion1).each(function() {
+    //console.log(this);
+    if (this != '-') {
+      $.each(data.data[this].stats, function(s, stat) {
         $.each(statsInformation, function(i, item) {
           $.each(statsInformation[i], function(o, itemStat) {
             $.each(statsInformation[i][o], function(u, itemStat2) {
               //asegurarme que hacer si es flat, % o que pedos
               if (s === itemStat2) {
-                $('.' + o + ' ' + '.byItems').empty();
+                //console.log('s === itemStat2', s === itemStat2, s, itemStat2);
+                $('.' + o + ' ' + '.champion1Span').remove();
                 if (s.substring(0, 4) === 'Flat') {
-                  statsCurrentValues[o] = statsCurrentValues[o] + stat;
-                  $('.' + o).append(
+                  statsCurrentValuesChampion1[o] =
+                    statsCurrentValuesChampion1[o] + stat;
+                  console.log(o, statsCurrentValuesChampion1[o]);
+                  //console.log(o);
+                  $('#champion1Stats' + ' ' + '.' + o).append(
                     $('<span>')
-                      .attr('class', 'byItems')
+                      .attr('class', 'byItems champion1Span')
                       .append(' + (')
-                      .append(statsCurrentValues[o])
+                      .append(statsCurrentValuesChampion1[o])
+                      .append(')')
+                  );
+                  console.log(document.querySelector('#champion1Stats'));
+                }
+              }
+            });
+          });
+        });
+      });
+    }
+  });
+}
+
+function updateItemStatsChampion2(data) {
+  $(itemsChampion2).each(function() {
+    //console.log(this);
+    if (this != '-') {
+      $.each(data.data[this].stats, function(s, stat) {
+        $.each(statsInformation, function(i, item) {
+          $.each(statsInformation[i], function(o, itemStat) {
+            $.each(statsInformation[i][o], function(u, itemStat2) {
+              //asegurarme que hacer si es flat, % o que pedos
+              if (s === itemStat2) {
+                //console.log('s === itemStat2', s === itemStat2, s, itemStat2);
+                $('.' + o + ' ' + '.champion2Span').remove();
+                if (s.substring(0, 4) === 'Flat') {
+                  statsCurrentValuesChampion2[o] =
+                    statsCurrentValuesChampion2[o] + stat;
+                  //onsole.log(o);
+                  $('#champion2Stats' + ' ' + '.' + o).append(
+                    $('<span>')
+                      .attr('class', 'byItems champion2Span')
+                      .append(' + (')
+                      .append(statsCurrentValuesChampion2[o])
                       .append(')')
                   );
                 }
@@ -195,10 +256,6 @@ function updateItemStats(data) {
         });
       });
     }
-  });
-  //hacer una funcion para limpiar las que no se usan
-  $.each(statsCurrentValues, function(s, stat) {
-    statsCurrentValues[s] = 0;
   });
 }
 
@@ -395,4 +452,30 @@ function drop(ev) {
     .fail(function(error) {
       console.log(error);
     });
+  getImagesIds();
+  $.getJSON(itemsURL)
+    .done(function(data) {
+      updateItemStats(data);
+    })
+    .fail(function(error) {
+      console.log('Error');
+    });
+}
+
+function getImagesIds() {
+  itemsChampion1 = [];
+  itemsChampion2 = [];
+  $.each(
+    document.getElementById('itemsChampion1').getElementsByTagName('img'),
+    function(i, item) {
+      itemsChampion1.push(item.id.slice(-4));
+    }
+  );
+
+  $.each(
+    document.getElementById('itemsChampion2').getElementsByTagName('img'),
+    function(i, item) {
+      itemsChampion2.push(item.id.slice(-4));
+    }
+  );
 }
