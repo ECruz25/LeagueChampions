@@ -1,5 +1,6 @@
 /*#007fff
 /#2E1141*/
+
 .byItems {
   color: blue;
 }
@@ -37,6 +38,7 @@ img {
   height: 64px;
   float: left;
   display: block;
+  border-radius: 30%;
 }
 
 #pictures {
