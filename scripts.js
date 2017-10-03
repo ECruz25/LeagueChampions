@@ -33,9 +33,15 @@ let statsCurrentValuesChampion2 = {
 };
 
 const statsInformation = [
-  { hp: ['FlatHPPoolMod', 'rFlatHPModPerLevel', 'PercentHPPoolMod'] },
-  { mp: ['FlatMPPoolMod', 'rFlatMPModPerLevel', 'PercentMPPoolMod'] },
-  { armor: ['FlatArmorMod', 'rFlatArmorModPerLevel', 'PercentArmorMod'] },
+  {
+    hp: ['FlatHPPoolMod', 'rFlatHPModPerLevel', 'PercentHPPoolMod']
+  },
+  {
+    mp: ['FlatMPPoolMod', 'rFlatMPModPerLevel', 'PercentMPPoolMod']
+  },
+  {
+    armor: ['FlatArmorMod', 'rFlatArmorModPerLevel', 'PercentArmorMod']
+  },
   {
     spellblock: [
       'FlatSpellBlockMod',
@@ -187,8 +193,8 @@ function updateItemStats(data) {
   });
   updateItemStatsChampion1(data);
   updateItemStatsChampion2(data);
-  // console.log([statsCurrentValuesChampion1]);
-  // console.log(statsCurrentValuesChampion2);
+  console.log(statsCurrentValuesChampion1);
+  console.log(statsCurrentValuesChampion2);
 }
 
 function updateItemStatsChampion1(data) {
@@ -198,11 +204,10 @@ function updateItemStatsChampion1(data) {
         $.each(statsInformation, (i, item) => {
           $.each(statsInformation[i], (o, itemStat) => {
             $.each(statsInformation[i][o], (u, itemStat2) => {
-              //asegurarme que hacer si es flat, % o que pedos
+              //asegurarme que hacer si es flat, o que pedos
               if (s === itemStat2) {
-                //console.log('s === itemStat2', s === itemStat2, s, itemStat2);
                 $(`.${o} .champion1Span`).remove();
-                if (s.substring(0, 4) === 'Flat') {
+                if (s.startsWith('Flat')) {
                   statsCurrentValuesChampion1[o] =
                     statsCurrentValuesChampion1[o] + stat;
                   //console.log(o, statsCurrentValuesChampion1[o]);
@@ -231,7 +236,8 @@ function updateItemStatsChampion2(data) {
             $.each(statsInformation[i][o], (u, itemStat2) => {
               if (s === itemStat2) {
                 $(`.${o} .champion2Span`).remove();
-                if (s.endsWith('Flat')) {
+                console.log(s);
+                if (s.startsWith('Flat')) {
                   statsCurrentValuesChampion2[o] =
                     statsCurrentValuesChampion2[o] + stat;
                   $(`#champion2Stats .${o}`).append(
@@ -276,7 +282,7 @@ function updateStats(data) {
             $('<li>')
               .attr('class', `info list-group-item ${c}`)
               .append(`${c}: `)
-              .append(k
+              .append(
                 $('<span>')
                   .attr('class', 'value')
                   .append(` ${information}`)
@@ -381,6 +387,7 @@ function loadImages(data) {
       item.colloq != '' &&
       Object.keys(item.stats).length !== 0
   );
+
   items.sort((a, b) => (a.gold.total > b.gold.total ? 1 : -1));
   for (let item of items) {
     //console.log(item.image.full.slice(0, 4), item.maps[11]);
