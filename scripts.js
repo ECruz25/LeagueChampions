@@ -29,11 +29,10 @@ let statsCurrentValuesChampion2 = {
   mpregen: 0,
   attackdamage: 0,
   attackspeed: 0,
-  critchance: 0
+  critchance: 0.5
 };
 
-const statsInformation = [
-  {
+const statsInformation = [{
     hp: ['FlatHPPoolMod', 'rFlatHPModPerLevel', 'PercentHPPoolMod']
   },
   {
@@ -198,7 +197,7 @@ function updateItemStats(data) {
 }
 
 function updateItemStatsChampion1(data) {
-  $(itemsChampion1).each(function() {
+  $(itemsChampion1).each(function () {
     if (this != '-') {
       $.each(data.data[this].stats, (s, stat) => {
         $.each(statsInformation, (i, item) => {
@@ -208,16 +207,17 @@ function updateItemStatsChampion1(data) {
               if (s === itemStat2) {
                 $(`.${o} .champion1Span`).remove();
                 if (s.startsWith('Flat')) {
+                  console.log(o, s, stat);
                   statsCurrentValuesChampion1[o] =
                     statsCurrentValuesChampion1[o] + stat;
                   //console.log(o, statsCurrentValuesChampion1[o]);
                   //console.log(o);
                   $(`#champion1Stats .${o}`).append(
                     $('<span>')
-                      .attr('class', 'byItems champion1Span')
-                      .append(` +(${statsCurrentValuesChampion1[o]})`)
+                    .attr('class', 'byItems champion1Span')
+                    .append(` +(${statsCurrentValuesChampion1[o]})`)
                   );
-                }
+                } else {}
               }
             });
           });
@@ -228,7 +228,7 @@ function updateItemStatsChampion1(data) {
 }
 
 function updateItemStatsChampion2(data) {
-  $(itemsChampion2).each(function() {
+  $(itemsChampion2).each(function () {
     if (this != '-') {
       $.each(data.data[this].stats, (s, stat) => {
         $.each(statsInformation, (i, item) => {
@@ -242,8 +242,8 @@ function updateItemStatsChampion2(data) {
                     statsCurrentValuesChampion2[o] + stat;
                   $(`#champion2Stats .${o}`).append(
                     $('<span>')
-                      .attr('class', 'byItems champion2Span')
-                      .append(`+ (${statsCurrentValuesChampion2[o]})`)
+                    .attr('class', 'byItems champion2Span')
+                    .append(`+ (${statsCurrentValuesChampion2[o]})`)
                   );
                 }
               }
@@ -264,101 +264,103 @@ function updateStats(data) {
   $('#champion2Stats').empty();
 
   $.each(data.data[champion1Selected].stats, (c, information) => {
+    if (c === 'crit') {
+      c = 'critchance';
+    }
     if ($('#levelsChampion1Select').val() == 1) {
       $('#champion1Stats').append(
         $('<li>')
-          .attr('class', `info list-group-item ${c}`)
-          .append(`${c}: `)
-          .append(
-            $('<span>')
-              .attr('class', 'value')
-              .append(` ${information}`)
-          )
+        .attr('class', `info list-group-item ${c}`)
+        .append(`${c}: `)
+        .append(
+          $('<span>')
+          .attr('class', 'value')
+          .append(` ${information}`)
+        )
       );
     } else {
       if (!c.endsWith('perlevel')) {
         if (data.data[champion1Selected].stats[`${c}perlevel`]) {
           $('#champion1Stats').append(
             $('<li>')
-              .attr('class', `info list-group-item ${c}`)
-              .append(`${c}: `)
+            .attr('class', `info list-group-item ${c}`)
+            .append(`${c}: `)
+            .append(
+              $('<span>')
+              .attr('class', 'value')
+              .append(` ${information}`)
               .append(
                 $('<span>')
-                  .attr('class', 'value')
-                  .append(` ${information}`)
-                  .append(
-                    $('<span>')
-                      .attr('class', 'perLevel')
-                      .append(
-                        `+(${Number(
+                .attr('class', 'perLevel')
+                .append(
+                  `+(${Number(
                           data.data[champion1Selected].stats[`${c}perlevel`] *
                             $('#levelsChampion1Select').val()
                         ).toFixed(2)})`
-                      )
-                  )
+                )
               )
+            )
           );
         } else {
           $('#champion1Stats').append(
             $('<li>')
-              .attr('class', `info list-group-item ${c}`)
-              .append(c + ': ')
-              .append(
-                $('<span>')
-                  .attr('class', 'value')
-                  .append(` ${information}`)
-              )
+            .attr('class', `info list-group-item ${c}`)
+            .append(c + ': ')
+            .append(
+              $('<span>')
+              .attr('class', 'value')
+              .append(` ${information}`)
+            )
           );
         }
-      } else {
-      }
+      } else {}
     }
   });
   $.each(data.data[champion2Selected].stats, (c, information) => {
     if ($('#levelsChampion2Select').val() == 1) {
       $('#champion2Stats').append(
         $('<li>')
-          .attr('class', `info list-group-item ${c}`)
-          .append(c + ': ')
-          .append(
-            $('<span>')
-              .attr('class', 'value')
-              .append(` ${information}`)
-          )
+        .attr('class', `info list-group-item ${c}`)
+        .append(c + ': ')
+        .append(
+          $('<span>')
+          .attr('class', 'value')
+          .append(` ${information}`)
+        )
       );
     } else {
       if (c.substr(c.length - 8) !== 'perlevel') {
         if (data.data[champion2Selected].stats[`${c}perlevel`]) {
           $('#champion2Stats').append(
             $('<li>')
-              .attr('class', 'info list-group-item ' + c)
-              .append(`${c}: `)
+            .attr('class', 'info list-group-item ' + c)
+            .append(`${c}: `)
+            .append(
+              $('<span>')
+              .attr('class', 'value')
+              .append(`' ${information}`)
               .append(
                 $('<span>')
-                  .attr('class', 'value')
-                  .append(`' ${information}`)
-                  .append(
-                    $('<span>')
-                      .attr('class', `perLevel`)
-                      .append(
-                        `+(${Number(
+                .attr('class', `perLevel`)
+                .append(
+                  `+(${Number(
                           data.data[champion2Selected].stats[`${c}perlevel`] *
                             $('#levelsChampion2Select').val()
                         ).toFixed(2)})`
-                      )
-                  )
+                )
               )
+            )
           );
         } else {
           $('#champion2Stats').append(
             $('<li>')
-              .attr('class', 'info list-group-item ' + c)
-              .append(`${c}:`)
-              .append(
-                $('<span>')
-                  .attr('class', 'value')
-                  .append(` ${information}`)
-              )
+            .attr('class', 'info list-group-item ' + c)
+            .append(`${c}:`)
+            .append(
+              $('<span>')
+              .attr('class', 'value')
+              .append(` ${information}`)
+            )
           );
         }
       }
@@ -380,15 +382,16 @@ function updatePictures(data) {
 }
 
 function loadImages(data) {
+  let statsRequired = [];
   let items = Object.values(data.data).filter(
     item =>
-      item.gold.purchasable &&
-      item.maps[11] == true &&
-      item.colloq != '' &&
-      Object.keys(item.stats).length !== 0
+    item.gold.purchasable &&
+    item.maps[11] == true &&
+    item.colloq != '' &&
+    Object.keys(item.stats).length !== 0
   );
 
-  items.sort((a, b) => (a.gold.total > b.gold.total ? 1 : -1));
+  items.sort((a, b) => (a.gold.total < b.gold.total ? 1 : -1));
   for (let item of items) {
     //console.log(item.image.full.slice(0, 4), item.maps[11]);
     $.get(itemImageURL + item.image.full)
