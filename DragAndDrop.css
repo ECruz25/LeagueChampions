@@ -1,0 +1,45 @@
+.info {
+  text-transform: uppercase;
+}
+
+.champions {
+  margin-left: 1.6667%;
+  float: left;
+}
+
+.perLevel {
+  color: green;
+}
+
+.byItems {
+  color: blue;
+}
+
+h1 {
+  padding-top: 20px;
+}
+
+.list-group-item {
+  padding: 5px;
+}
+
+img {
+  display: block;
+}
+
+div {
+  width: 546px;
+  height: 90px;
+  border: 1px solid #aaaaaa;
+}
+
+.item {
+  margin: 13px 13.5px;
+  width: 64px;
+  height: 64px;
+  float: left;
+  display: block;
+}
+
+#pictures {
+}
